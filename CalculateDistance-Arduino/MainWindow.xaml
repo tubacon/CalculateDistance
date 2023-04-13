@@ -2,12 +2,100 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CalculateDistance_Arduino"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:dvc="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=DotNetProjects.DataVisualization.Toolkit"
+        mc:Ignorable="d" 
+        Title="Calculate Distance with JSN-SR04" Height="700" Width="1000"
+        WindowStartupLocation="CenterScreen"> 
+    <!--WindowState="Maximized"-->
+
     <Grid>
-        <Label Content="Label" HorizontalAlignment="Left" Margin="160,169,0,0" VerticalAlignment="Top"/>
+        <Grid.RowDefinitions>
+            <!-- Top Menu -->
+            <RowDefinition Height="Auto"/>
+            <!-- Informations -->
+            <RowDefinition Height="*"/>
+            <!-- Chart -->
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <!-- First Column -->
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <!-- Second Column -->
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <!-- Top Menu -->
+        <DockPanel Grid.Row="0" Grid.ColumnSpan="2" Margin="0 0 0 10">
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_Options"  Height="30">
+                    <MenuItem Name="ConnectToArduino" Header="Connect to Arduino" Click="ConnectToArduino_Click"/>
+                    <MenuItem Name="TestConnection"  Header="Test Connection" Click="TestConnection_Click" />
+                    <MenuItem Name="DisconnectFromArduino"  Header="Disconnect from Arduino" Click="DisconnectFromArduino_Click" />
+                    <Separator />
+                    <MenuItem Name="Exit" Header="Exit" Click="Exit_Click" />
+                </MenuItem>
+                <MenuItem Header="Scan Devices"></MenuItem>
+            </Menu>
+        </DockPanel>
+
+        <!-- Informations - Column : 0 -->
+        <StackPanel Grid.Row="1" Grid.Column="0" Margin="10 0 10 0">
+
+            <TextBlock Text="Informations" Margin="0 0 0 20" FontWeight="Bold"/>
+
+            <!-- Bluetooth Connection Status -->
+            <TextBlock Text="Bluetooth Connection Status" Margin="0 0 0 5"/>
+            <TextBox x:Name="txtConnectionStatus" IsReadOnly="True" Padding="2" Text="Not Connected" FontStyle="Italic" FontWeight="Bold" TextChanged="txtConnectionStatus_TextChanged"/>
+            
+           
+        </StackPanel>
+
+        <!-- Settings - Column : 1 -->
+        <StackPanel Grid.Row="1" Grid.Column="1" Margin="10 0 10 0">
+
+            <TextBlock Text="Settings" Margin="0 0 0 20" FontWeight="Bold"/>
+
+            <!-- Scanned Devices -->
+            <TextBlock Text="Select Devices" Margin="0 0 0 5"/>
+            <ComboBox x:Name="cmbScannedDevices" SelectedIndex="0" Padding="4 4 0 0"
+                      Height="25">
+                <ComboBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ComboBoxItem}">
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                        <Setter Property="Height" Value="30"/>
+                    </Style>
+                </ComboBox.ItemContainerStyle>
+            </ComboBox>
+
+            <!-- Port Select -->
+            <TextBlock Text="Port Select" Margin="0 10 0 5"/>
+            <ComboBox x:Name="cmbPort" SelectedIndex="0" Padding="4 4 0 0"
+                      Height="25">
+                <ComboBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ComboBoxItem}">
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                        <Setter Property="Height" Value="30"/>
+                    </Style>
+                </ComboBox.ItemContainerStyle>
+            </ComboBox>
+
+        </StackPanel>
+
+
+        <!-- Chart -->
+        <Border Padding="10" Grid.Row="3" Grid.ColumnSpan="2">
+            <dvc:Chart>
+                <dvc:LineSeries ItemsSource="{Binding Data}" 
+                        DependentValueBinding="{Binding Y}" 
+                        IndependentValueBinding="{Binding X}" />
+                <dvc:LineSeries ItemsSource="{Binding LineData}" 
+                        DependentValueBinding="{Binding Y}" 
+                        IndependentValueBinding="{Binding X}" />
+            </dvc:Chart>
+        </Border>
 
     </Grid>
+
 </Window>

@@ -1,11 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <RootNamespace>CalculateDistance_Arduino</RootNamespace>
-    <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<RootNamespace>CalculateDistance_Arduino</RootNamespace>
+		<Nullable>enable</Nullable>
+		<UseWPF>true</UseWPF>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="DotNetProjects.WpfToolkit.DataVisualization" Version="6.1.94" />
+		<PackageReference Include="System.IO.Ports" Version="8.0.0-preview.3.23174.8" />
+		<PackageReference Include="System.Runtime.WindowsRuntime" Version="5.0.0-preview.5.20278.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="Windows">
+			<IsWinMDFile>true</IsWinMDFile>
+		</Reference>
+	</ItemGroup>
 
 </Project>
