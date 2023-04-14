@@ -6,7 +6,7 @@
         xmlns:dvc="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=DotNetProjects.DataVisualization.Toolkit"
         mc:Ignorable="d" 
         Title="Calculate Distance with JSN-SR04" Height="700" Width="1000"
-        WindowStartupLocation="CenterScreen"> 
+        WindowStartupLocation="CenterScreen">
     <!--WindowState="Maximized"-->
 
     <Grid>
@@ -28,15 +28,10 @@
 
         <!-- Top Menu -->
         <DockPanel Grid.Row="0" Grid.ColumnSpan="2" Margin="0 0 0 10">
-            <Menu DockPanel.Dock="Top">
-                <MenuItem Header="_Options"  Height="30">
-                    <MenuItem Name="ConnectToArduino" Header="Connect to Arduino" Click="ConnectToArduino_Click"/>
-                    <MenuItem Name="TestConnection"  Header="Test Connection" Click="TestConnection_Click" />
-                    <MenuItem Name="DisconnectFromArduino"  Header="Disconnect from Arduino" Click="DisconnectFromArduino_Click" />
-                    <Separator />
-                    <MenuItem Name="Exit" Header="Exit" Click="Exit_Click" />
-                </MenuItem>
-                <MenuItem Header="Scan Devices"></MenuItem>
+            <Menu DockPanel.Dock="Top" >
+                <MenuItem Name="menuConnectBluetooth"  Header="_Connect to Bluetooth" Height="30" Click="menuConnectBluetooth_Click"></MenuItem>
+                <MenuItem Name="menuDisconnect" Header="_Disconnect" Height="30" Click="menuDisconnect_Click" IsEnabled="False"></MenuItem>
+                <MenuItem Name="menuTest" Header="_TEST" Height="30" Click="menuTest_Click"></MenuItem>
             </Menu>
         </DockPanel>
 
@@ -48,8 +43,8 @@
             <!-- Bluetooth Connection Status -->
             <TextBlock Text="Bluetooth Connection Status" Margin="0 0 0 5"/>
             <TextBox x:Name="txtConnectionStatus" IsReadOnly="True" Padding="2" Text="Not Connected" FontStyle="Italic" FontWeight="Bold" TextChanged="txtConnectionStatus_TextChanged"/>
-            
-           
+
+
         </StackPanel>
 
         <!-- Settings - Column : 1 -->
@@ -57,42 +52,36 @@
 
             <TextBlock Text="Settings" Margin="0 0 0 20" FontWeight="Bold"/>
 
-            <!-- Scanned Devices -->
-            <TextBlock Text="Select Devices" Margin="0 0 0 5"/>
-            <ComboBox x:Name="cmbScannedDevices" SelectedIndex="0" Padding="4 4 0 0"
-                      Height="25">
-                <ComboBox.ItemContainerStyle>
-                    <Style TargetType="{x:Type ComboBoxItem}">
-                        <Setter Property="VerticalContentAlignment" Value="Center"/>
-                        <Setter Property="Height" Value="30"/>
-                    </Style>
-                </ComboBox.ItemContainerStyle>
-            </ComboBox>
+            <!-- Baudrate -->
+            <TextBlock Text="Baudrate" Margin="0 10 0 5"/>
+            <TextBox Name="txtBaudrate" Padding="2">9600</TextBox>
 
             <!-- Port Select -->
             <TextBlock Text="Port Select" Margin="0 10 0 5"/>
-            <ComboBox x:Name="cmbPort" SelectedIndex="0" Padding="4 4 0 0"
-                      Height="25">
-                <ComboBox.ItemContainerStyle>
-                    <Style TargetType="{x:Type ComboBoxItem}">
-                        <Setter Property="VerticalContentAlignment" Value="Center"/>
-                        <Setter Property="Height" Value="30"/>
-                    </Style>
-                </ComboBox.ItemContainerStyle>
-            </ComboBox>
+            <TextBox Name="txtPort" Padding="2">COM5</TextBox>
 
         </StackPanel>
 
 
         <!-- Chart -->
         <Border Padding="10" Grid.Row="3" Grid.ColumnSpan="2">
-            <dvc:Chart>
-                <dvc:LineSeries ItemsSource="{Binding Data}" 
+            <dvc:Chart Name="chartDistances">
+                <dvc:LineSeries ItemsSource="{Binding Data}"
                         DependentValueBinding="{Binding Y}" 
-                        IndependentValueBinding="{Binding X}" />
-                <dvc:LineSeries ItemsSource="{Binding LineData}" 
-                        DependentValueBinding="{Binding Y}" 
-                        IndependentValueBinding="{Binding X}" />
+                        IndependentValueBinding="{Binding X}"
+                                Title="Distance/Time"/>
+                <dvc:Chart.Axes>
+                    <dvc:LinearAxis Orientation="X">
+                        <dvc:LinearAxis.Title>
+                            <TextBlock Text="Time"/>
+                        </dvc:LinearAxis.Title>
+                    </dvc:LinearAxis>
+                    <dvc:LinearAxis Orientation="Y">
+                        <dvc:LinearAxis.Title>
+                            <TextBlock Text="Distance"/>
+                        </dvc:LinearAxis.Title>
+                    </dvc:LinearAxis>
+                </dvc:Chart.Axes>
             </dvc:Chart>
         </Border>
 
